@@ -1,0 +1,21 @@
+{
+  "name": "Cheday-parse-server",
+  "version": "1.0.0",
+  "description": "Cheday parse server",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cheday/cheday-backend"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "~4.14.x",
+    "parse-server": "~2.2.16"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=6.3"
+  }
+}
