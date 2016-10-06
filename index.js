@@ -1,6 +1,7 @@
 
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
+var S3Adapter = require('parse-server').S3Adapter;
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
@@ -17,12 +18,21 @@ var api = new ParseServer({
   oauth: {
   	twitter: {
   		consumer_key: process.env.TWITTER_CONSUMER_KEY || "", // REQUIRED
-		consumer_secret: process.env.TWITTER_CONSUMER_SECRET || "" // REQUIRED
-	},
-	facebook: {
-		appIds: process.env.FACEBOOK_APP_ID || ""
-	}
-  }
+		  consumer_secret: process.env.TWITTER_CONSUMER_SECRET || "" // REQUIRED
+    },
+  	facebook: {
+  		appIds: process.env.FACEBOOK_APP_ID || ""
+  	}
+  },
+  filesAdapter: new S3Adapter(
+    process.env.S3_ACCESS_KEY || '',
+    process.env.S3_SECRET_KEY || '',
+    process.env.S3_BUCKET || '',
+    {
+      region: process.env.S3_REGION || '',
+      directAccess: true
+    }
+  )
 });
 
 var app = express();
