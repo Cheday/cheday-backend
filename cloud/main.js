@@ -7,12 +7,16 @@ Parse.Cloud.afterDelete("Event", function(req) {
 		function(error){
 			console.error("Error deleteing related VolonteerRolesWithCount " + error.code + ": " + error.message);
 		}).then(function(){
-			const config = new Config(Parse.applicationId);
-		    const filesController = config.filesController;
-		    return filesController.deleteFile(config, req.object.get("image").name);
+			return Parse.Cloud.httpRequest({
+	        	method: 'DELETE',
+	        	url: Parse.serverURL + "/files/" + req.object.get("image").name(),
+	        	headers: {
+		            "X-Parse-Application-Id": Parse.applicationId,
+	            	"X-Parse-Master-Key" : Parse.masterKey
+	        	}
+	    	});
 		}).then(function(result){
-			console.log("Result of deletion file: " + JSON.stringify(result));
 		}, function(error){
-			console.error("Error deleting event image " + error.code + ": " + error.message);
+			console.error("Error deleting event image: " + JSON.stringify(error));
 		});
 });
